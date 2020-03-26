@@ -133,7 +133,7 @@ Below are five new sample images downloaded from the web. Note that they are in 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80 %. This is obviously below the test set accuracy of 91 %, but can be accounted for by the small sample size.
 
-Nevertheless, the network's inability to distinguish between the 60 and 30 kph signs is an unexpected surprise, since the leading digits are quite different. It is possible, however, that some of the speed limit images are too blurry or obscured in some instances; alternatively, it could just be an idiosyncracy of this particular network architecture-cum-training weights and biases combination.
+Nevertheless, the network's inability to distinguish between the 60 and 30 kph signs is an unexpected surprise, since the leading digits are quite different. It is possible, however, that some of the speed limit images are too blurry or obscured in some instances; alternatively, it could just be an idiosyncrasy of this particular network architecture-cum-training weights & biases combination.
 
 #### 3. Deeper Examination of the Predictions
 
