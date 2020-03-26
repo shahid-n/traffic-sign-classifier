@@ -129,8 +129,6 @@ Below are five new sample images downloaded from the web. Note that they are in 
 
 ![alt text][newimgs]
 
-As stated above, the network originally had some difficulties when trained with the complete quadrupled dataset which included 90 degree rotations, so the 'Keep Left' sign (second image) is of particular interest.
-
 #### 2. Model Predictions
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80 %. This is obviously below the test set accuracy of 91 %, but can be accounted for by the small sample size.
