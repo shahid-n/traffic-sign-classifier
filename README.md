@@ -188,7 +188,7 @@ The main conclusion of this project is the need for a judicious approach to the 
 3. iterative fine-tuning of parameters in conjunction with architecture modifications
 4. isolation of test data from the validation and training sets
 5. statistically sound image pre-processing and augmentation methods
-6. reguralisation strategy such as introduction of dropouts
+6. regularisation strategy such as introduction of dropouts
 
 Due to time constraints, point #5 above did not receive the level of attention it deserves, which needs to be rectified in the future as part of ongoing improvements.
 
