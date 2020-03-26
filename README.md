@@ -69,8 +69,6 @@ The next three figures show the frequency distribution of the 43 different kinds
 
 The first step was to convert the images to greyscale in order to improve the robustness of the network with respect to changes in colouration or shading, whilst simultaneously -- and implicitly -- placing increased emphasis on shapes and lines as the keys to proper sign recognition.
 
-Here is an example of a traffic sign image before and after grayscaling.
-
 Next, the images were all normalised, as this improves both the efficacy and ultimate accuracy of the trained network.
 
 Last but not least, the training data were augmented with 3 different rotated versions of the originals, thus quadrupling the size of the training set.
