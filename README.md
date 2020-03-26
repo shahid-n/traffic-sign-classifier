@@ -1,7 +1,5 @@
 # **Convolutional Neural Network for Traffic Sign Recognition** 
 
----
-
 **Traffic Sign Recognition Project**
 
 The goals of this project are the following.
@@ -137,7 +135,7 @@ As stated above, the network originally had some difficulties when trained with 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80 %. This is obviously below the test set accuracy of 91 %, but can be accounted for by the small sample size.
 
-Nevertheless, the network's inability to distinguish between the 'Bicycles Crossing' and 'Children Crossing' signs is an unexpected surprise, since they normally seem to be completely different. Upon further reflection, however, it appears that the network might have been misled or confused by shadows or dirt / smudges in the training images, and the fact that the wheels might bear a passing resemblance to two figurines in otherwise very different signs.
+Nevertheless, the network's inability to distinguish between the 60 and 30 kph signs is an unexpected surprise, since the leading digits are quite different. It is possible, however, that some of the speed limit images are too blurry or obscured in some instances; alternatively, it could just be an idiosyncracy of this particular network architecture-cum-training weights and biases combination.
 
 #### 3. Deeper Examination of the Predictions
 
@@ -196,8 +194,8 @@ The main conclusion of this project is the need for a judicious approach to the 
 
 Due to time constraints, point #5 above did not receive the level of attention it deserves, which needs to be rectified in the future as part of ongoing improvements.
 
-Specifically, when we examine the histogram plots from the `Data Set Summary & Exploration` section, it is quite apparent that the distribution of images is not uniform. Furthermore, the method used to augment the data was somewhat crude, as it simply involved rotating the images through 4 different fixed angles. Although somewhat more time and resource intensive, a better approach would be to run a separate offline routine with the ability to apply arbitrary -- and perhaps randomised -- amounts of rotation on a randomly sampled subset of the training data, in addition to performing slight colour modifications, translations, skew or other shape transforms, addition of random noise, blurring or other minor artifacts, etc. This augmented training set could then be fed into the network to achieve a fundamentally more robust model.
+Specifically, when we examine the histogram plots from the `Data Set Summary & Exploration` section, it is quite apparent that the distribution of images is not uniform. Furthermore, the method used to augment the data was somewhat crude, as it simply involved rotating the images through 4 different fixed angles. Although somewhat more time and resource intensive, a better approach would be to run a separate offline routine with the ability to apply arbitrary -- and perhaps randomised -- amounts of rotation on a randomly sampled subset of the training data, in addition to performing slight colour modifications, translations, skew or other shape transforms, blurring, addition of random noise or other minor artifacts, etc. This augmented training set could then be fed into the network to achieve a fundamentally more robust model.
 
-I expect the techniques suggested above would lead to improved performance, especially on new real world images. As such, the initial LeNet architecture was quite adept at achieving a high training accuracy in the 95 to 98 % range, but would then underperform to the effect of returning only around 82 to 88 % accuracy on the validation set, an average difference of over 10 %, which suggests underfitting.
+I expect the techniques suggested above would lead to improved performance, especially on new real world images. As such, the initial LeNet architecture was quite adept at achieving a high training accuracy in the 95 to 98 % range, but would then underperform to the effect of returning only around 82 to 88 % accuracy on the validation set, an average difference of over 10 %, which suggests overfitting.
 
 The design, parameter tuning and pre-processing choices outlined in the prior sections helped to narrow the gap so that, whilst the training accuracy levelled off around 94 % due in part to the large and more varied training set, the validation and test accuracy metrics nevertheless reveal promising potential for this model to be applied in a variety of real world scenarios, where it could be reasonably expected to return an accuracy of at least 90 to 91 %.
