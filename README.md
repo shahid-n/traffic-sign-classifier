@@ -98,7 +98,7 @@ The final model comprises the following layers.
 
 #### 3. CNN Training Procedure
 
-The fundamental training approach chosen for this convolutional network was minimise the mean cross entropy by using the Adam optimiser.
+The fundamental training approach chosen for this convolutional network was to minimise the mean cross entropy by using the Adam optimiser.
 
 Whilst the default hyperparameter values provided with the LeNet code example proved to be surprisingly good initial guesses, some tweaks were necessary to achieve at least 93 % validation accuracy. In particular the number of epochs had to be tuned in conjunction with the keep probability for dropouts that were introduced into a couple of layers in the modified LeNet architecture.
 
