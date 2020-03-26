@@ -29,7 +29,7 @@ The goals of this project are the following.
 [layer1]: ./output_images/plot_1.png "Layer 1 Feature Maps"
 [layer2]: ./output_images/plot_2.png "Layer 2 Feature Maps"
 [layer4]: ./output_images/plot_3.png "Layer 4 Scores"
-[layer5]: ./output_images/Plot_4.png "Layer 5 Scores"
+[layer5]: ./output_images/plot_4.png "Layer 5 Scores"
 [logits]: ./output_images/plot_5.png "Logits"
 
 ## Rubric Points
@@ -38,7 +38,7 @@ The goals of this project are the following.
 ---
 ### Writeup / README
 
-This readme addresses the write-up requirement of the rubric. The [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb) is the key means of addressing all the other portions of the rubric.
+This readme addresses the write-up requirement of the rubric. The [project code](https://github.com/shahid-n/traffic-sign-classifier/blob/master/Traffic_Sign_Classifier.ipynb) is the key means of addressing all the other portions of the rubric.
 
 ### Data Set Summary & Exploration
 
@@ -69,13 +69,13 @@ The next three figures show the frequency distribution of the 43 different kinds
 
 #### 1. Preprocessing, Normalisation and Augmentation
 
-The first step was to convert the images to grayscale in order to improve the robustness of the network with respect to changes in colouration or shading, whilst simultaneously -- and implicitly -- placing increased emphasis on shapes and lines as the keys to proper sign recognition.
+The first step was to convert the images to greyscale in order to improve the robustness of the network with respect to changes in colouration or shading, whilst simultaneously -- and implicitly -- placing increased emphasis on shapes and lines as the keys to proper sign recognition.
 
 Here is an example of a traffic sign image before and after grayscaling.
 
 Next, the images were all normalised, as this improves both the efficacy and ultimate accuracy of the trained network.
 
-Last but not least, the original training data were augmented with flipped versions of the same images, i.e., they were rotated 180 degrees. This led to the training data set doubling with respect to its original size.
+Last but not least, the training data were augmented with 3 different rotated versions of the originals, thus quadrupling the size of the training set.
 
 #### 2. Model Architecture Summary
 
@@ -106,7 +106,7 @@ Whilst the default hyperparameter values provided with the LeNet code example pr
 
 The images were normalised to have zero mean and converted to greyscale in order to ensure greater robustness of the training regimen to variations in colour and shading, whilst simultaneously emphasising the importance of shapes and lines to ensure successful classification of traffic signs.
 
-Last but not least, the data set was augmented by rotating the images, initially in integer multiples of 90 degrees. However, it quickly became apparent that this quick and dirty way of quadrupling the training set had a few drawbacks, such as the model having difficulty distinguishing between images that match an existing valid image from the data set after a +/- 90 degree rotation -- the Keep Left and Keep Right signs are a good example of this problem. Consequently, the final training set only had the original set of training images augmented by copies that were rotated 180 degrees.
+Last but not least, the data set was augmented by rotating the images, initially in integer multiples of 90 degrees. However, it quickly became apparent that this quick and dirty way of quadrupling the training set had a few drawbacks, such as the model having difficulty distinguishing between images that match an existing valid image from the data set after a +/- 90 degree rotation -- the Keep Left and Keep Right signs are a good example of this problem. Consequently, the final training set used rotations of +/- 25 and 180 degrees, respectively, all of which were augmented to the original group of training images.
 
 #### 4. Architecture Tweaks and Parameter Tuning
 
