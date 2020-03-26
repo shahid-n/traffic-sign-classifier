@@ -86,6 +86,8 @@ The final model comprises the following layers.
 | Convolution, 5x5      | 1x1 stride, valid padding, output 10x10x16 |
 | ReLU                  | Rectified linear activation                |
 | Max Pooling, 2x2      | 2x2 stride, valid padding, output 5x5x16   |
+| Convolution, 2x2      | 2x2 stride, valid padding, output 2x2x100  |
+| ReLU                  | Rectified linear activation                |
 | Flatten to 1-D        | Output 400                                 |
 | Fully connected       | Output 120                                 |
 | Dropout               | Keep probability: 0.6                      |
