@@ -1,58 +1,203 @@
-## Project: Build a Traffic Sign Recognition Program
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+# **Convolutional Neural Network for Traffic Sign Recognition** 
 
-Overview
 ---
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to classify traffic signs. You will train and validate a model so it can classify traffic sign images using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). After the model is trained, you will then try out your model on images of German traffic signs that you find on the web.
 
-We have included an Ipython notebook that contains further instructions 
-and starter code. Be sure to download the [Ipython notebook](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb). 
+**Traffic Sign Recognition Project**
 
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting three files: 
-* the Ipython notebook with the code
-* the code exported as an html file
-* a writeup report either as a markdown or pdf file 
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/481/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
-The goals / steps of this project are the following:
-* Load the data set
-* Explore, summarize and visualize the data set
+The goals of this project are the following.
+* Load the data set (see below for links to the project data set)
+* Explore, summarise and visualise the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
-* Analyze the softmax probabilities of the new images
-* Summarize the results with a written report
+* Analyse the softmax probabilities of the new images
+* Summarise the results with a written report
 
-### Dependencies
-This lab requires:
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
+[//]: # (Image References)
 
-The lab environment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
+[samples]: ./output_images/sample_signs.png "Visualisation"
+[train]: ./output_images/hist_train.png "Training Images"
+[valid]: ./output_images/hist_validation.png "Validation Images"
+[test]: ./output_images/hist_test.png "Testing Images"
+[newimgs]: ./output_images/new_images.png "Some New Test Candidates"
+[sftmax1]: ./output_images/softmax_1.png "Prediction #1"
+[sftmax2]: ./output_images/softmax_2.png "Prediction #2"
+[sftmax3]: ./output_images/softmax_3.png "Prediction #3"
+[sftmax4]: ./output_images/softmax_4.png "Prediction #4"
+[sftmax5]: ./output_images/softmax_5.png "Prediction #5"
+[layerExplore]: ./output_images/test_sign.png "A Test Sign Used to Visualise the Feature Maps"
+[layer1]: ./output_images/plot_1.png "Layer 1 Feature Maps"
+[layer2]: ./output_images/plot_2.png "Layer 2 Feature Maps"
+[layer4]: ./output_images/plot_3.png "Layer 4 Scores"
+[layer5]: ./output_images/Plot_4.png "Layer 5 Scores"
+[logits]: ./output_images/plot_5.png "Logits"
 
-### Dataset and Repository
+## Rubric Points
+### The [rubric points](https://review.udacity.com/#!/rubrics/481/view) are considered individually within this section to elaborate on how the implementation covers each one.  
 
-1. Download the data set. The classroom has a link to the data set in the "Project Instructions" content. This is a pickled dataset in which we've already resized the images to 32x32. It contains a training, validation and test set.
-2. Clone the project, which contains the Ipython notebook and the writeup template.
-```sh
-git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
-cd CarND-Traffic-Sign-Classifier-Project
-jupyter notebook Traffic_Sign_Classifier.ipynb
-```
+---
+### Writeup / README
 
-### Requirements for Submission
-Follow the instructions in the `Traffic_Sign_Classifier.ipynb` notebook and write the project report using the writeup template as a guide, `writeup_template.md`. Submit the project code and writeup document.
+This readme addresses the write-up requirement of the rubric. The [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb) is the key means of addressing all the other portions of the rubric.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+### Data Set Summary & Exploration
 
+#### 1. High level summary
+
+The first step was to load the German traffic sign dataset and to use Numpy to calculate some statistics which are summarised below.
+
+* The size of the _original_ training set was 34799
+* The size of the _augmented_ training set was 111356
+* The size of the validation set was 6960
+* The size of test set was 12630
+* The shape of a traffic sign image is 32 x 32 pixels, with 3 colour channels (RGB)
+* The number of unique classes/labels in the data set is 43
+
+#### 2. Example signs and visualisation of the distribution of the images
+
+The figure below shows a random sampling of the signs along with their associated labels, which are part of the data set.
+
+![alt text][samples]
+
+The next three figures show the frequency distribution of the 43 different kinds of images found in the training, validation and testing subsets, respectively.
+
+![alt text][train]
+![alt text][valid]
+![alt text][test]
+
+### Design and Testing of the Model Architecture
+
+#### 1. Preprocessing, Normalisation and Augmentation
+
+The first step was to convert the images to grayscale in order to improve the robustness of the network with respect to changes in colouration or shading, whilst simultaneously -- and implicitly -- placing increased emphasis on shapes and lines as the keys to proper sign recognition.
+
+Here is an example of a traffic sign image before and after grayscaling.
+
+Next, the images were all normalised, as this improves both the efficacy and ultimate accuracy of the trained network.
+
+Last but not least, the original training data were augmented with flipped versions of the same images, i.e., they were rotated 180 degrees. This led to the training data set doubling with respect to its original size.
+
+#### 2. Model Architecture Summary
+
+The final model comprises the following layers.
+
+|    Layer              |     Description                            | 
+|:---------------------:|:------------------------------------------:| 
+| Input         	    | 32x32x3 RGB image                          |
+| Convolution, 5x5      | 1x1 stride, valid padding, output 28x28x6  |
+| ReLU                  | Rectified linear activation                |
+| Max Pooling, 2x2      | 2x2 stride, valid padding, output 14x14x6  |
+| Convolution, 5x5      | 1x1 stride, valid padding, output 10x10x16 |
+| ReLU                  | Rectified linear activation                |
+| Max Pooling, 2x2      | 2x2 stride, valid padding, output 5x5x16   |
+| Flatten to 1-D        | Output 400                                 |
+| Fully connected       | Output 120                                 |
+| Dropout               | Keep probability: 0.6                      |
+| Fully connected       | Output 84                                  |
+| Dropout               | Keep probability: 0.54                     |
+| Fully connected       | Output 43                                  |
+
+
+#### 3. CNN Training Procedure
+
+The fundamental training approach chosen for this convolutional network was minimise the mean cross entropy by using the Adam optimiser.
+
+Whilst the default hyperparameter values provided with the LeNet code example proved to be surprisingly good initial guesses, some tweaks were necessary to achieve at least 93 % validation accuracy. In particular the number of epochs had to be tuned in conjunction with the keep probability for dropouts that were introduced into a couple of layers in the modified LeNet architecture.
+
+The images were normalised to have zero mean and converted to greyscale in order to ensure greater robustness of the training regimen to variations in colour and shading, whilst simultaneously emphasising the importance of shapes and lines to ensure successful classification of traffic signs.
+
+Last but not least, the data set was augmented by rotating the images, initially in integer multiples of 90 degrees. However, it quickly became apparent that this quick and dirty way of quadrupling the training set had a few drawbacks, such as the model having difficulty distinguishing between images that match an existing valid image from the data set after a +/- 90 degree rotation -- the Keep Left and Keep Right signs are a good example of this problem. Consequently, the final training set only had the original set of training images augmented by copies that were rotated 180 degrees.
+
+#### 4. Architecture Tweaks and Parameter Tuning
+
+An iterative approach was chosen to try different combinations of hyperparameter values, ultimately followed by some architecture modifications and further fine-tuning of the parameters.
+
+Initially the standard LeNet architecture was chosen because of its proven capabilities in image classification applications. Nevertheless, although the model was able to achieve very high accuracy during training, validation accuracy was somewhat poorer, which pointed to issues with overfitting and potential limitations in terms of generalising to new sets of traffic signs in realistic driving scenarios.
+
+Consequently, the architecture was adjusted by introducing dropouts in two of the layers, and furthermore, an extra convolutional layer was added immediately prior to the fully connected layers, which led to markedly improved accuracy whilst simultaneously avoiding overfitting.
+
+The final model performance statistics are as follows.
+* training set accuracy of 0.943
+* validation set accuracy of 0.977 
+* test set accuracy of 0.912
+
+The above results suggest the model might have undergone slight overfitting; nevertheless, these results represent an improvement over some early results of 0.938 training accuracy and 0.85 test accuracy.
+
+### Test Results on New Images
+
+#### 1. Performance on New Images from the Web
+
+Below are five new sample images downloaded from the web. Note that they are in colour, and since the network supports 3 channels despite only being trained using greyscale images, they could be fed in directly without the need of any pre-processing, save for down-sampling them to the compatible pixel dimensions of 32 x 32.
+
+![alt text][newimgs]
+
+As stated above, the network originally had some difficulties when trained with the complete quadrupled dataset which included 90 degree rotations, so the 'Keep Left' sign (second image) is of particular interest.
+
+#### 2. Model Predictions
+
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80 %. This is obviously below the test set accuracy of 91 %, but can be accounted for by the small sample size.
+
+Nevertheless, the network's inability to distinguish between the 'Bicycles Crossing' and 'Children Crossing' signs is an unexpected surprise, since they normally seem to be completely different. Upon further reflection, however, it appears that the network might have been misled or confused by shadows or dirt / smudges in the training images, and the fact that the wheels might bear a passing resemblance to two figurines in otherwise very different signs.
+
+#### 3. Deeper Examination of the Predictions
+
+The figures below illustrate the predictions generated by the model.
+
+![alt text][sftmax1]
+![alt text][sftmax2]
+![alt text][sftmax3]
+![alt text][sftmax4]
+![alt text][sftmax5]
+
+The first prediction is clearly wrong; the network thinks it is a 30 kph sign, even though the figure is clearly 60. All the other correct predictions returned probabilities close to 1. The accuracy result of this test is `4/5 = 80 %`.
+
+The output copied below from the Jupyter notebook shows the top 5 predictions with associated labels corresponding to each of the 5 images above, respectively.
+
+    TopKV2(values=array([[9.96405900e-01, 3.59406671e-03, 2.23206946e-08, 1.16978606e-11,
+            7.45939730e-18],
+           [9.99679804e-01, 3.20266816e-04, 7.91848087e-10, 2.36586112e-10,
+            1.46885074e-10],
+           [9.92601573e-01, 6.23094290e-03, 1.12409412e-03, 2.72912057e-05,
+            6.72608076e-06],
+           [9.30282474e-01, 6.97153732e-02, 8.38632957e-07, 6.83138637e-07,
+            1.94384668e-07],
+           [1.00000000e+00, 2.21564802e-20, 4.97184035e-23, 3.04714904e-26,
+            2.07820506e-26]], dtype=float32), indices=array([[ 1,  3,  5,  2,  0],
+           [23, 19, 13, 31, 20],
+           [41, 42, 32, 12, 10],
+           [12, 42, 30, 41, 38],
+           [18, 26,  1, 27, 25]], dtype=int32))
+
+### Visualising the Feature Maps
+
+The test image below was used to illustrate the feature maps and excitations within each layer of the network. Note that this is a colour image being fed into a network that was only trained on greyscale images (albeit with support for 3 channels, which all contained the same greyscale training data).
+
+![alt text][layerExplore]
+
+The layer visualisations are shown below. Layer #3, whose output shape is 2x2x100, has been omitted due to space limitations precluding a suitable or useful presentation of every feature map from that particular set of outputs.
+
+![alt text][layer1]
+![alt text][layer2]
+![alt text][layer4]
+![alt text][layer5]
+![alt text][logits]
+
+---
+## Concluding Remarks
+
+The main conclusion of this project is the need for a judicious approach to the overall design of a deep neural network with due consideration given to all of the following aspects.
+
+1. network architecture
+2. coarse parameter tuning
+3. iterative fine-tuning of parameters in conjunction with architecture modifications
+4. isolation of test data from the validation and training sets
+5. statistically sound image pre-processing and augmentation methods
+6. reguralisation strategy such as introduction of dropouts
+
+Due to time constraints, point #5 above did not receive the level of attention it deserves, which needs to be rectified in the future as part of ongoing improvements.
+
+Specifically, when we examine the histogram plots from the `Data Set Summary & Exploration` section, it is quite apparent that the distribution of images is not uniform. Furthermore, the method used to augment the data was somewhat crude, as it simply involved rotating the images through 4 different fixed angles. Although somewhat more time and resource intensive, a better approach would be to run a separate offline routine with the ability to apply arbitrary -- and perhaps randomised -- amounts of rotation on a randomly sampled subset of the training data, in addition to performing slight colour modifications, translations, skew or other shape transforms, addition of random noise, blurring or other minor artifacts, etc. This augmented training set could then be fed into the network to achieve a fundamentally more robust model.
+
+I expect the techniques suggested above would lead to improved performance, especially on new real world images. As such, the initial LeNet architecture was quite adept at achieving a high training accuracy in the 95 to 98 % range, but would then underperform to the effect of returning only around 82 to 88 % accuracy on the validation set, an average difference of over 10 %, which suggests underfitting.
+
+The design, parameter tuning and pre-processing choices outlined in the prior sections helped to narrow the gap so that, whilst the training accuracy levelled off around 94 % due in part to the large and more varied training set, the validation and test accuracy metrics nevertheless reveal promising potential for this model to be applied in a variety of real world scenarios, where it could be reasonably expected to return an accuracy of at least 90 to 91 %.
